@@ -470,21 +470,37 @@ setSmallAboutIndex(prev=>(prev + 1) % aboutImages.length);
 </section>
 
 {/* Search */}
-<section className="-mt-12 relative z-30 px-4 pb-16">
-  <div className="max-w-7xl mx-auto">
-    <div className="bg-white rounded-[32px] shadow-2xl overflow-hidden">
+<section className="-mt-10 relative z-30 px-4 pb-16">
 
-      {/* Search Bar */}
+  <div className="max-w-6xl mx-auto">
 
-      <div className="p-6 md:p-8">
+    <div className="bg-white rounded-3xl shadow-2xl p-5 md:p-8">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      {/* Search Hint */}
 
-          {/* Destination */}
+      <div className="flex items-center gap-2 mb-6">
+
+        <span className="animate-pulse text-[#0B6E4F]">
+          🔍
+        </span>
+
+        <p className="text-sm text-gray-500">
+          Search by destination, travel date, category, or budget.
+        </p>
+
+      </div>
+
+      {/* Filters */}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        {/* Destination */}
+
+        <div className="relative">
 
           <input
             type="text"
-            placeholder="Search Destination"
+            placeholder="📍 Destination"
             value={filters.search}
             onChange={(e) =>
               setFilters({
@@ -493,300 +509,284 @@ setSmallAboutIndex(prev=>(prev + 1) % aboutImages.length);
               })
             }
             className="
+              w-full
               h-14
               border
               rounded-2xl
-              px-5
+              px-4
               outline-none
               focus:border-[#0B6E4F]
               focus:ring-2
               focus:ring-[#0B6E4F]/20
             "
           />
-
-          {/* Travel Date */}
-
-          <input
-            type="date"
-            className="
-              h-14
-              border
-              rounded-2xl
-              px-5
-              outline-none
-              focus:border-[#0B6E4F]
-              focus:ring-2
-              focus:ring-[#0B6E4F]/20
-            "
-          />
-
-          {/* Month */}
-
-          <select
-            value={filters.month}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                month: e.target.value,
-              })
-            }
-            className="
-              h-14
-              border
-              rounded-2xl
-              px-5
-              outline-none
-              focus:border-[#0B6E4F]
-            "
-          >
-            <option value="">Month</option>
-
-            <option value="September">
-              September
-            </option>
-            <option value="Beach">Beach</option>
-
-<option value="Safari">Safari</option>
-
-<option value="Holiday">Holiday</option>
-
-<option value="Adventure">Adventure</option>
-            <option value="October">
-              October
-            </option>
-
-            <option value="December">
-              December
-            </option>
-
-            <option value="February">
-              February
-            </option>
-
-          </select>
-
-          {/* Category */}
-
-          <select
-            value={filters.category}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                category: e.target.value,
-              })
-            }
-            className="
-              h-14
-              border
-              rounded-2xl
-              px-5
-              outline-none
-              focus:border-[#0B6E4F]
-            "
-          >
-            <option value="">Category</option>
-
-            <option value="Beach">
-              Beach
-            </option>
-
-            <option value="Safari">
-              Safari
-            </option>
-
-            <option value="Holiday">
-              Holiday
-            </option>
-
-          </select>
-
-          {/* Budget */}
-
-          <select
-            value={filters.budget}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                budget: e.target.value,
-              })
-            }
-            className="
-              h-14
-              border
-              rounded-2xl
-              px-5
-              outline-none
-              focus:border-[#0B6E4F]
-            "
-          >
-            <option value="">Budget</option>
-
-            <option value="10000">
-              Under KSh 10,000
-            </option>
-
-            <option value="20000">
-              Under KSh 20,000
-            </option>
-            <option value="50000">
-              Under KSh 50,000
-            </option>
-
-          </select>
-
-          {/* Reset */}
-
-          <button
-            onClick={() =>
-              setFilters({
-                search: "",
-                month: "",
-                category: "",
-                budget: "",
-              })
-            }
-            className="
-              h-14
-              rounded-2xl
-              bg-[#0B6E4F]
-              text-white
-              font-bold
-              hover:bg-[#084c39]
-              transition
-            "
-          >
-            Reset
-          </button>
 
         </div>
 
-        {/* Results */}
+        {/* Date */}
 
-        {(filters.search ||
-          filters.month ||
-          filters.category ||
-          filters.budget) && (
+        <input
+          type="date"
+          className="
+            h-14
+            border
+            rounded-2xl
+            px-4
+            outline-none
+            focus:border-[#0B6E4F]
+            focus:ring-2
+            focus:ring-[#0B6E4F]/20
+          "
+        />
 
-          <div className="mt-10">
+        {/* Category */}
 
-            <div className="flex items-center justify-between mb-6">
+        <select
+          value={filters.category}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              category: e.target.value,
+            })
+          }
+          className="
+            h-14
+            border
+            rounded-2xl
+            px-4
+            outline-none
+            focus:border-[#0B6E4F]
+          "
+        >
+          <option value="">
+            🏕️ Category
+          </option>
 
-              <h3 className="text-2xl font-bold">
-                Available Trips
-              </h3>
+          <option value="Beach">
+            Beach
+          </option>
 
-              <span
-                className="
-                  px-5
-                  py-2
-                  rounded-full
-                  bg-[#0B6E4F]/10
-                  text-[#0B6E4F]
-                  font-semibold
-                "
-              >
-                {filteredTrips.length} found
-              </span>
+          <option value="Safari">
+            Safari
+          </option>
 
-            </div>
+          <option value="Holiday">
+            Holiday
+          </option>
 
-            {filteredTrips.length > 0 ? (
+          <option value="Adventure">
+            Adventure
+          </option>
 
-              <div className="grid gap-4">
+        </select>
 
-                {filteredTrips.map((trip, index) => (
+        {/* Budget */}
 
-                  <button
-                    key={index}
-                    onClick={() => {
+        <select
+          value={filters.budget}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              budget: e.target.value,
+            })
+          }
+          className="
+            h-14
+            border
+            rounded-2xl
+            px-4
+            outline-none
+            focus:border-[#0B6E4F]
+          "
+        >
+          <option value="">
+            💰 Budget
+          </option>
 
-                      const poster = upcomingPosters.find(
-                        (item) =>
-                          item.title
-                            .toLowerCase()
-                            .includes(
-                              trip.title
-                                .split(" ")[0]
-                                .toLowerCase()
-                            )
-                      );
+          <option value="5000">
+            Under KSh 5,000
+          </option>
 
-                      setSelectedTrip(poster);
+          <option value="10000">
+            Under KSh 10,000
+          </option>
 
-                    }}
-                    className="
-                      p-6
-                      border
-                      rounded-3xl
-                      text-left
-                      hover:border-[#0B6E4F]
-                      hover:shadow-xl
-                      transition-all
-                    "
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <option value="20000">
+            Under KSh 20,000
+          </option>
 
-                      <div>
+          <option value="50000">
+            Under KSh 50,000
+          </option>
 
-                        <h3 className="text-xl font-bold">
-                          {trip.title}
-                        </h3>
-
-                        <p className="mt-2 text-gray-500">
-                          {trip.month} • {trip.category}
-                        </p>
-
-                      </div>
-
-                      <div className="flex items-center gap-6">
-
-                        <div className="text-xl font-black text-[#0B6E4F]">
-                          KSh {trip.budget.toLocaleString()}
-                        </div>
-
-                        <div
-                          className="
-                            px-5
-                            py-3
-                            rounded-full
-                            bg-[#0B6E4F]
-                            text-white
-                            font-bold
-                          "
-                        >
-                          View Trip →
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                  </button>
-
-                ))}
-
-              </div>
-
-            ) : (
-
-              <div className="py-12 text-center">
-
-                <p className="text-lg text-gray-500">
-                  No matching trips found.
-                </p>
-
-              </div>
-
-            )}
-
-          </div>
-
-        )}
+        </select>
 
       </div>
 
+      {/* Action Buttons */}
+
+      <div className="flex flex-col sm:flex-row gap-4 mt-5">
+
+        <button
+          className="
+            flex-1
+            h-14
+            rounded-2xl
+            bg-[#0B6E4F]
+            text-white
+            font-bold
+            hover:bg-[#084c39]
+            transition
+          "
+        >
+          Search Trips
+        </button>
+
+        <button
+          onClick={() =>
+            setFilters({
+              search: "",
+              month: "",
+              category: "",
+              budget: "",
+            })
+          }
+          className="
+            flex-1
+            h-14
+            rounded-2xl
+            border
+            font-bold
+            hover:bg-gray-50
+            transition
+          "
+        >
+          Clear Filters
+        </button>
+
+      </div>
+
+      {/* Results */}
+
+      {(filters.search ||
+        filters.category ||
+        filters.budget) && (
+
+        <div className="mt-10">
+
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+
+            <h3 className="text-2xl font-bold">
+              Available Trips
+            </h3>
+
+            <span className="text-[#0B6E4F] font-semibold">
+
+              {filteredTrips.length} trips found
+
+            </span>
+
+          </div>
+
+          {filteredTrips.length > 0 ? (
+
+            <div className="grid gap-4">
+
+              {filteredTrips.map((trip, index) => (
+
+                <button
+                  key={index}
+                  onClick={() => {
+
+                    const poster = upcomingPosters.find(
+                      (item) =>
+                        item.title
+                          .toLowerCase()
+                          .includes(
+                            trip.title
+                              .split(" ")[0]
+                              .toLowerCase()
+                          )
+                    );
+
+                    setSelectedTrip(poster);
+
+                  }}
+                  className="
+                    p-5
+                    border
+                    rounded-3xl
+                    text-left
+                    hover:border-[#0B6E4F]
+                    hover:shadow-xl
+                    transition
+                  "
+                >
+
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                    <div>
+
+                      <h3 className="font-bold text-lg">
+
+                        {trip.title}
+
+                      </h3>
+
+                      <p className="text-gray-500 mt-1">
+
+                        {trip.category}
+
+                      </p>
+
+                    </div>
+
+                    <div className="flex flex-col items-start md:items-end gap-2">
+
+                      <div className="font-black text-xl text-[#0B6E4F]">
+
+                        KSh {trip.budget.toLocaleString()}
+
+                      </div>
+
+                      <span className="text-sm font-semibold">
+
+                        View details →
+
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </button>
+
+              ))}
+
+            </div>
+
+          ) : (
+
+            <div className="py-10 text-center">
+
+              <p className="text-gray-500">
+
+                No matching trips found.
+
+              </p>
+
+            </div>
+
+          )}
+
+        </div>
+
+      )}
+
     </div>
+
   </div>
+
 </section>
       {/* ABOUT / EXPERIENCE SECTION */}
 {/* ABOUT / EXPERIENCE SECTION */}
@@ -2223,111 +2223,120 @@ setSmallAboutIndex(prev=>(prev + 1) % aboutImages.length);
 
 </footer>
 {selectedTrip && (
+  <div className="fixed inset-0 z-[999] bg-black/80 p-3 flex items-center justify-center">
 
-  <div className="fixed inset-0 z-[999] bg-black/80 flex items-center justify-center p-4">
-
-    <div className="relative w-full max-w-4xl bg-white rounded-[32px] overflow-hidden shadow-2xl">
-
+    <div
+      className="
+        relative
+        w-full
+        max-w-md
+        md:max-w-4xl
+        max-h-[95vh]
+        overflow-y-auto
+        bg-white
+        rounded-3xl
+        shadow-2xl
+      "
+    >
       <button
         onClick={() => setSelectedTrip(null)}
-        className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white shadow-lg font-bold"
+        className="
+          absolute
+          top-3
+          right-3
+          z-20
+          w-10
+          h-10
+          rounded-full
+          bg-white
+          shadow-lg
+          font-bold
+        "
       >
         ✕
       </button>
 
-      <img
-        src={selectedTrip.image}
-        alt={selectedTrip.title}
-        className="w-full max-h-[500px] object-contain bg-black"
-      />
+      <div className="bg-black">
+        <img
+          src={selectedTrip.image}
+          alt={selectedTrip.title}
+          className="
+            w-full
+            h-[220px]
+            sm:h-[280px]
+            md:h-[450px]
+            object-cover
+          "
+        />
+      </div>
 
-      <div className="p-6 md:p-8">
+      <div className="p-5 md:p-8">
 
         <h2 className="text-2xl md:text-4xl font-black">
-
           {selectedTrip.title}
-
         </h2>
 
-        <p className="mt-4 text-gray-600 leading-7">
-
+        <p className="mt-4 text-gray-600 text-sm md:text-base leading-7">
           {selectedTrip.description}
-
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-6">
 
           <div>
-
             <p className="text-sm text-gray-500">
-
               Date
-
             </p>
 
             <p className="font-bold">
-
               {selectedTrip.date}
-
             </p>
-
           </div>
 
           <div>
-
             <p className="text-sm text-gray-500">
-
               Duration
-
             </p>
 
             <p className="font-bold">
-
               {selectedTrip.duration}
-
             </p>
-
           </div>
 
           <div>
-
             <p className="text-sm text-gray-500">
-
               Price
-
             </p>
 
             <p className="font-bold text-[#0B6E4F]">
-
               {selectedTrip.price}
-
             </p>
-
           </div>
 
         </div>
 
-        {selectedTrip.flightPrice && (
-
-          <p className="mt-4 font-bold text-yellow-600">
-
-            {selectedTrip.flightPrice}
-
-          </p>
-
-        )}
-
         <a
-          href="https://wa.me/254720524627?text=Hello%20I'm%20interested%20in%20this%20trip."
+          href="https://wa.me/254720524627"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-3 mt-8 px-8 py-4 rounded-full bg-[#0B6E4F] text-white font-bold hover:bg-[#084c39] transition"
+          className="
+            sticky
+            bottom-0
+            flex
+            items-center
+            justify-center
+            gap-3
+            w-full
+            mt-6
+            py-4
+            rounded-full
+            bg-[#0B6E4F]
+            text-white
+            font-bold
+          "
         >
-
           <FaWhatsapp />
 
           Book on WhatsApp
-
         </a>
 
       </div>
@@ -2335,7 +2344,6 @@ setSmallAboutIndex(prev=>(prev + 1) % aboutImages.length);
     </div>
 
   </div>
-
 )}
     </div>
     
