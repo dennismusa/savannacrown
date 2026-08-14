@@ -73,6 +73,8 @@ const [selectedTrip, setSelectedTrip] = useState(null);
 
 const [filters, setFilters] = useState({
   search: "",
+  fromDate: "",
+  toDate: "",
   month: "",
   category: "",
   budget: "",
@@ -84,6 +86,8 @@ const trips = [
     month: "September",
     category: "Beach",
     budget: 9800,
+    fromDate: "2026-09-18",
+    toDate: "2026-09-20",
     link: "https://wa.me/254720524627",
   },
  {
@@ -91,6 +95,8 @@ const trips = [
     month: "December",
     category: "Safari",
     budget: 0,
+    fromDate: "2026-08-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
 
@@ -99,6 +105,8 @@ const trips = [
     month: "September",
     category: "Beach",
     budget: 39500,
+    fromDate: "2026-08-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
 
@@ -107,6 +115,8 @@ const trips = [
     month: "September",
     category: "Adventure",
     budget: 2500,
+    fromDate: "2026-08-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
 
@@ -115,6 +125,8 @@ const trips = [
     month: "December",
     category: "Beach",
     budget: 51000,
+    fromDate: "2026-08-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
 
@@ -123,6 +135,8 @@ const trips = [
     month: "December",
     category: "Beach",
     budget: 17000,
+    fromDate: "2026-08-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
 
@@ -131,6 +145,8 @@ const trips = [
     month: "Every Month",
     category: "Safari",
     budget: 0,
+    fromDate: "2026-08-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
   {
@@ -138,6 +154,8 @@ const trips = [
     month: "September",
     category: "Beach",
     budget: 18500,
+    fromDate: "2026-09-24",
+    toDate: "2026-09-27",
     link: "https://wa.me/254720524627",
   },
 
@@ -146,6 +164,8 @@ const trips = [
     month: "October",
     category: "Safari",
     budget: 19500,
+    fromDate: "2026-10-09",
+    toDate: "2026-10-11",
     link: "https://wa.me/254720524627",
   },
 
@@ -154,6 +174,8 @@ const trips = [
     month: "February",
     category: "Holiday",
     budget: 8499,
+    fromDate: "2027-02-10",
+    toDate: "2027-02-14",
     link: "https://wa.me/254720524627",
   },
 
@@ -162,14 +184,19 @@ const trips = [
     month: "December",
     category: "Holiday",
     budget: 7500,
+    fromDate: "2026-12-01",
+    toDate: "2026-12-31",
     link: "https://wa.me/254720524627",
   },
 ];
 
 const filteredTrips = trips.filter((trip) => {
-  const matchesSearch = trip.title
-    .toLowerCase()
-    .includes(filters.search.toLowerCase());
+
+  const matchesSearch =
+    !filters.search ||
+    trip.title
+      .toLowerCase()
+      .includes(filters.search.toLowerCase());
 
   const matchesMonth =
     !filters.month ||
@@ -183,12 +210,25 @@ const filteredTrips = trips.filter((trip) => {
     !filters.budget ||
     trip.budget <= Number(filters.budget);
 
+  // FROM DATE
+  const matchesFromDate =
+    !filters.fromDate ||
+    trip.toDate >= filters.fromDate;
+
+  // TO DATE
+  const matchesToDate =
+    !filters.toDate ||
+    trip.fromDate <= filters.toDate;
+
   return (
     matchesSearch &&
     matchesMonth &&
     matchesCategory &&
-    matchesBudget
+    matchesBudget &&
+    matchesFromDate &&
+    matchesToDate
   );
+
 });
 const upcomingPosters = [
   {
@@ -470,323 +510,625 @@ setSmallAboutIndex(prev=>(prev + 1) % aboutImages.length);
 </section>
 
 {/* Search */}
-<section className="-mt-10 relative z-30 px-4 pb-16">
+<section className="-mt-12 relative z-30 px-4 pb-16">
+  <div className="max-w-7xl mx-auto">
 
-  <div className="max-w-6xl mx-auto">
+    <div className="
+      bg-white
+      rounded-[28px]
+      shadow-2xl
+      border border-gray-100
+      overflow-hidden
+    ">
 
-    <div className="bg-white rounded-3xl shadow-2xl p-5 md:p-8">
+      {/* ================= SEARCH AREA ================= */}
 
-      {/* Search Hint */}
+      <div className="p-5 sm:p-6 md:p-8">
 
-      <div className="flex items-center gap-2 mb-6">
+        {/* Small Search Label */}
 
-        <span className="animate-pulse text-[#0B6E4F]">
-          🔍
-        </span>
+        <div className="flex items-center gap-2 mb-5">
 
-        <p className="text-sm text-gray-500">
-          Search by destination, travel date, category, or budget.
-        </p>
+          <div className="
+            w-8
+            h-8
+            rounded-full
+            bg-[#0B6E4F]/10
+            flex
+            items-center
+            justify-center
+            text-[#0B6E4F]
+          ">
+            🔎
+          </div>
 
-      </div>
+          <span className="
+            text-sm
+            sm:text-base
+            font-semibold
+            text-gray-700
+          ">
+            Search trips
+          </span>
 
-      {/* Filters */}
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-        {/* Destination */}
+        {/* ================= FILTERS ================= */}
 
-        <div className="relative">
+        <div className="
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          lg:grid-cols-6
+          gap-3
+        ">
 
-          <input
-            type="text"
-            placeholder="📍 Destination"
-            value={filters.search}
+          {/* Destination */}
+
+          <div className="relative">
+
+            <span className="
+              absolute
+              left-4
+              top-1/2
+              -translate-y-1/2
+              text-gray-400
+            ">
+              📍
+            </span>
+
+            <input
+              type="text"
+              placeholder="Destination"
+              value={filters.search}
+              onChange={(e) =>
+                setFilters({
+                  ...filters,
+                  search: e.target.value,
+                })
+              }
+              className="
+                w-full
+                h-14
+                border
+                border-gray-200
+                rounded-2xl
+                pl-11
+                pr-4
+                outline-none
+                text-gray-700
+                bg-gray-50
+                focus:bg-white
+                focus:border-[#0B6E4F]
+                focus:ring-2
+                focus:ring-[#0B6E4F]/10
+                transition
+              "
+            />
+
+          </div>
+
+
+          {/* FROM DATE */}
+
+          <div className="relative">
+
+            <span className="
+              absolute
+              left-4
+              top-1/2
+              -translate-y-1/2
+              text-gray-400
+              pointer-events-none
+            ">
+              📅
+            </span>
+
+            <input
+              type="date"
+              value={filters.fromDate}
+              min={new Date().toISOString().split("T")[0]}
+              onChange={(e) =>
+                setFilters({
+                  ...filters,
+                  fromDate: e.target.value,
+                })
+              }
+              className="
+                w-full
+                h-14
+                border
+                border-gray-200
+                rounded-2xl
+                pl-11
+                pr-3
+                outline-none
+                text-gray-700
+                bg-gray-50
+                focus:bg-white
+                focus:border-[#0B6E4F]
+                focus:ring-2
+                focus:ring-[#0B6E4F]/10
+                transition
+              "
+            />
+
+            {!filters.fromDate && (
+              <span className="
+                absolute
+                left-11
+                top-1/2
+                -translate-y-1/2
+                text-gray-400
+                pointer-events-none
+                bg-gray-50
+                pr-2
+              ">
+                From date
+              </span>
+            )}
+
+          </div>
+
+
+          {/* TO DATE */}
+
+          <div className="relative">
+
+            <span className="
+              absolute
+              left-4
+              top-1/2
+              -translate-y-1/2
+              text-gray-400
+              pointer-events-none
+            ">
+              📅
+            </span>
+
+            <input
+              type="date"
+              value={filters.toDate}
+              min={
+                filters.fromDate ||
+                new Date().toISOString().split("T")[0]
+              }
+              onChange={(e) =>
+                setFilters({
+                  ...filters,
+                  toDate: e.target.value,
+                })
+              }
+              className="
+                w-full
+                h-14
+                border
+                border-gray-200
+                rounded-2xl
+                pl-11
+                pr-3
+                outline-none
+                text-gray-700
+                bg-gray-50
+                focus:bg-white
+                focus:border-[#0B6E4F]
+                focus:ring-2
+                focus:ring-[#0B6E4F]/10
+                transition
+              "
+            />
+
+            {!filters.toDate && (
+              <span className="
+                absolute
+                left-11
+                top-1/2
+                -translate-y-1/2
+                text-gray-400
+                pointer-events-none
+                bg-gray-50
+                pr-2
+              ">
+                To date
+              </span>
+            )}
+
+          </div>
+
+
+          {/* MONTH */}
+
+          <select
+            value={filters.month}
             onChange={(e) =>
               setFilters({
                 ...filters,
-                search: e.target.value,
+                month: e.target.value,
               })
             }
             className="
               w-full
               h-14
               border
+              border-gray-200
               rounded-2xl
               px-4
               outline-none
+              text-gray-700
+              bg-gray-50
+              focus:bg-white
               focus:border-[#0B6E4F]
-              focus:ring-2
-              focus:ring-[#0B6E4F]/20
+              transition
             "
-          />
+          >
+
+            <option value="">
+              📆 Month
+            </option>
+
+            <option value="September">
+              September
+            </option>
+
+            <option value="October">
+              October
+            </option>
+
+            <option value="December">
+              December
+            </option>
+
+            <option value="February">
+              February
+            </option>
+
+          </select>
+
+
+          {/* CATEGORY */}
+
+          <select
+            value={filters.category}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                category: e.target.value,
+              })
+            }
+            className="
+              w-full
+              h-14
+              border
+              border-gray-200
+              rounded-2xl
+              px-4
+              outline-none
+              text-gray-700
+              bg-gray-50
+              focus:bg-white
+              focus:border-[#0B6E4F]
+              transition
+            "
+          >
+
+            <option value="">
+              🧭 Category
+            </option>
+
+            <option value="Beach">
+              Beach
+            </option>
+
+            <option value="Safari">
+              Safari
+            </option>
+
+            <option value="Holiday">
+              Holiday
+            </option>
+
+            <option value="Adventure">
+              Adventure
+            </option>
+
+          </select>
+
+
+          {/* BUDGET */}
+
+          <select
+            value={filters.budget}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                budget: e.target.value,
+              })
+            }
+            className="
+              w-full
+              h-14
+              border
+              border-gray-200
+              rounded-2xl
+              px-4
+              outline-none
+              text-gray-700
+              bg-gray-50
+              focus:bg-white
+              focus:border-[#0B6E4F]
+              transition
+            "
+          >
+
+            <option value="">
+              💰 Budget
+            </option>
+
+            <option value="10000">
+              Under KSh 10,000
+            </option>
+
+            <option value="20000">
+              Under KSh 20,000
+            </option>
+
+            <option value="50000">
+              Under KSh 50,000
+            </option>
+
+          </select>
 
         </div>
 
-        {/* Date */}
 
-        <input
-          type="date"
-          className="
-            h-14
-            border
-            rounded-2xl
-            px-4
-            outline-none
-            focus:border-[#0B6E4F]
-            focus:ring-2
-            focus:ring-[#0B6E4F]/20
-          "
-        />
+        {/* ================= RESET ================= */}
 
-        {/* Category */}
+        {(filters.search ||
+          filters.fromDate ||
+          filters.toDate ||
+          filters.month ||
+          filters.category ||
+          filters.budget) && (
 
-        <select
-          value={filters.category}
-          onChange={(e) =>
-            setFilters({
-              ...filters,
-              category: e.target.value,
-            })
-          }
-          className="
-            h-14
-            border
-            rounded-2xl
-            px-4
-            outline-none
-            focus:border-[#0B6E4F]
-          "
-        >
-          <option value="">
-            🏕️ Category
-          </option>
+          <div className="flex justify-end mt-4">
 
-          <option value="Beach">
-            Beach
-          </option>
-
-          <option value="Safari">
-            Safari
-          </option>
-
-          <option value="Holiday">
-            Holiday
-          </option>
-
-          <option value="Adventure">
-            Adventure
-          </option>
-
-        </select>
-
-        {/* Budget */}
-
-        <select
-          value={filters.budget}
-          onChange={(e) =>
-            setFilters({
-              ...filters,
-              budget: e.target.value,
-            })
-          }
-          className="
-            h-14
-            border
-            rounded-2xl
-            px-4
-            outline-none
-            focus:border-[#0B6E4F]
-          "
-        >
-          <option value="">
-            💰 Budget
-          </option>
-
-          <option value="5000">
-            Under KSh 5,000
-          </option>
-
-          <option value="10000">
-            Under KSh 10,000
-          </option>
-
-          <option value="20000">
-            Under KSh 20,000
-          </option>
-
-          <option value="50000">
-            Under KSh 50,000
-          </option>
-
-        </select>
-
-      </div>
-
-      {/* Action Buttons */}
-
-      <div className="flex flex-col sm:flex-row gap-4 mt-5">
-
-        <button
-          className="
-            flex-1
-            h-14
-            rounded-2xl
-            bg-[#0B6E4F]
-            text-white
-            font-bold
-            hover:bg-[#084c39]
-            transition
-          "
-        >
-          Search Trips
-        </button>
-
-        <button
-          onClick={() =>
-            setFilters({
-              search: "",
-              month: "",
-              category: "",
-              budget: "",
-            })
-          }
-          className="
-            flex-1
-            h-14
-            rounded-2xl
-            border
-            font-bold
-            hover:bg-gray-50
-            transition
-          "
-        >
-          Clear Filters
-        </button>
-
-      </div>
-
-      {/* Results */}
-
-      {(filters.search ||
-        filters.category ||
-        filters.budget) && (
-
-        <div className="mt-10">
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-
-            <h3 className="text-2xl font-bold">
-              Available Trips
-            </h3>
-
-            <span className="text-[#0B6E4F] font-semibold">
-
-              {filteredTrips.length} trips found
-
-            </span>
+            <button
+              onClick={() =>
+                setFilters({
+                  search: "",
+                  fromDate: "",
+                  toDate: "",
+                  month: "",
+                  category: "",
+                  budget: "",
+                })
+              }
+              className="
+                text-sm
+                font-semibold
+                text-gray-500
+                hover:text-[#0B6E4F]
+                transition
+              "
+            >
+              Clear all filters
+            </button>
 
           </div>
 
-          {filteredTrips.length > 0 ? (
+        )}
 
-            <div className="grid gap-4">
 
-              {filteredTrips.map((trip, index) => (
+        {/* ================= RESULTS ================= */}
 
-                <button
-                  key={index}
-                  onClick={() => {
+        {(filters.search ||
+          filters.fromDate ||
+          filters.toDate ||
+          filters.month ||
+          filters.category ||
+          filters.budget) && (
 
-                    const poster = upcomingPosters.find(
-                      (item) =>
-                        item.title
-                          .toLowerCase()
-                          .includes(
-                            trip.title
-                              .split(" ")[0]
-                              .toLowerCase()
-                          )
-                    );
+          <div className="mt-8">
 
-                    setSelectedTrip(poster);
+            {/* Result Header */}
 
-                  }}
-                  className="
-                    p-5
-                    border
-                    rounded-3xl
-                    text-left
-                    hover:border-[#0B6E4F]
-                    hover:shadow-xl
-                    transition
-                  "
-                >
+            <div className="
+              flex
+              flex-col
+              sm:flex-row
+              sm:items-center
+              sm:justify-between
+              gap-3
+              mb-5
+            ">
 
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
 
-                    <div>
+                <h3 className="
+                  text-xl
+                  sm:text-2xl
+                  font-black
+                  text-gray-900
+                ">
+                  Available Trips
+                </h3>
 
-                      <h3 className="font-bold text-lg">
+                <p className="text-sm text-gray-500 mt-1">
+                  Choose a trip to view details and book.
+                </p>
 
-                        {trip.title}
+              </div>
 
-                      </h3>
+              <span className="
+                self-start
+                sm:self-auto
+                px-4
+                py-2
+                rounded-full
+                bg-[#0B6E4F]/10
+                text-[#0B6E4F]
+                text-sm
+                font-bold
+              ">
+                {filteredTrips.length} found
+              </span>
 
-                      <p className="text-gray-500 mt-1">
+            </div>
 
-                        {trip.category}
 
-                      </p>
+            {/* Trip Results */}
 
-                    </div>
+            {filteredTrips.length > 0 ? (
 
-                    <div className="flex flex-col items-start md:items-end gap-2">
+              <div className="grid gap-3">
 
-                      <div className="font-black text-xl text-[#0B6E4F]">
+                {filteredTrips.map((trip, index) => (
 
-                        KSh {trip.budget.toLocaleString()}
+                  <button
+                    key={index}
+                    onClick={() => {
+
+                      const poster = upcomingPosters.find(
+                        (item) =>
+                          item.title
+                            .toLowerCase()
+                            .includes(
+                              trip.title
+                                .split(" ")[0]
+                                .toLowerCase()
+                            )
+                      );
+
+                      if (poster) {
+                        setSelectedTrip(poster);
+                      }
+
+                    }}
+                    className="
+                      w-full
+                      p-4
+                      sm:p-5
+                      border
+                      border-gray-200
+                      rounded-2xl
+                      text-left
+                      bg-white
+                      hover:border-[#0B6E4F]
+                      hover:shadow-lg
+                      transition-all
+                      duration-300
+                    "
+                  >
+
+                    <div className="
+                      flex
+                      flex-col
+                      sm:flex-row
+                      sm:items-center
+                      sm:justify-between
+                      gap-4
+                    ">
+
+                      <div className="min-w-0">
+
+                        <h3 className="
+                          text-base
+                          sm:text-lg
+                          font-bold
+                          text-gray-900
+                        ">
+                          {trip.title}
+                        </h3>
+
+                        <p className="
+                          mt-1
+                          text-sm
+                          text-gray-500
+                        ">
+                          {trip.fromDate} → {trip.toDate}
+                          {" • "}
+                          {trip.category}
+                        </p>
 
                       </div>
 
-                      <span className="text-sm font-semibold">
+                      <div className="
+                        flex
+                        items-center
+                        justify-between
+                        sm:justify-end
+                        gap-4
+                      ">
 
-                        View details →
+                        <span className="
+                          text-lg
+                          font-black
+                          text-[#0B6E4F]
+                        ">
+                          KSh {trip.budget.toLocaleString()}
+                        </span>
 
-                      </span>
+                        <span className="
+                          px-4
+                          py-2
+                          rounded-full
+                          bg-[#0B6E4F]
+                          text-white
+                          text-sm
+                          font-bold
+                        ">
+                          View
+                        </span>
+
+                      </div>
 
                     </div>
 
-                  </div>
+                  </button>
 
-                </button>
+                ))}
 
-              ))}
+              </div>
 
-            </div>
+            ) : (
 
-          ) : (
+              <div className="
+                py-10
+                px-5
+                text-center
+                rounded-2xl
+                bg-gray-50
+                border
+                border-dashed
+                border-gray-200
+              ">
 
-            <div className="py-10 text-center">
+                <div className="text-3xl mb-3">
+                  🔎
+                </div>
 
-              <p className="text-gray-500">
+                <p className="font-bold text-gray-700">
+                  No matching trips found
+                </p>
 
-                No matching trips found.
+                <p className="text-sm text-gray-500 mt-1">
+                  Try changing your destination, dates or filters.
+                </p>
 
-              </p>
+              </div>
 
-            </div>
+            )}
 
-          )}
+          </div>
 
-        </div>
+        )}
 
-      )}
+      </div>
 
     </div>
 
   </div>
-
 </section>
       {/* ABOUT / EXPERIENCE SECTION */}
 {/* ABOUT / EXPERIENCE SECTION */}
